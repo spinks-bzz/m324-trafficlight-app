@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    tools { 
+        nodejs "node" 
+    }
+
+    stages {
+        stage('Cloning Repo') {
+            steps {
+				script {
+					git branch: 'main',
+					url: 'https://github.com/spinks-bzz/m324-trafficlight-app.git'
+				}
+            }
+        }
+		stage('Install jest-cli') {
+			steps {
+				sh 'npm install jest-cli -g'
+			}
+		}
+		stage('Install dependencies') {
+			steps {
+				script {
+					sh 'npm install'
+				}
+			}
+		}
+		stage('Running Tests') {
+			steps {
+				script {
+					sh 'npm test'
+				}
+			}
+		}
+    }
+}
